@@ -37,12 +37,7 @@ const WarpResult = ({
           draggable="false"
         />
       )}
-      <img
-        alt={warp}
-        className="warp-result"
-        src={`../assets/warp-results/${warp}.webp`}
-        rarity={json.getRarity(warp)}
-        width={getWidth(440)}
+      <div
         height={getHeight(230, 440)}
         style={{
           ...style,
@@ -51,32 +46,16 @@ const WarpResult = ({
             animationStyle,
           opacity: isFive || !loaded ? 0 : 1,
         }}
-        onLoad={() => {
-          setLoaded(true);
-        }}
-        draggable="false"
-      />
-      {isNew && (
-        <img
-          className="warp-results-new-tag"
-          alt="New Tag"
-          src="/assets/new.webp"
-          width={getWidth(90)}
-          style={{
-            ...style,
-            animation:
-              (isFive ? "animate-change-in 100ms ease-in 990ms 1 both, " : "") +
-              animationStyle,
-            opacity: isFive ? 0 : 1,
-          }}
-          draggable="false"
-        />
-      )}
+      >
+        {JSON.stringify(warp)}
+      </div>
     </div>
   );
 };
 
 const WarpResults = ({ currentWarp, newItems, onClose, hasFive }) => {
+  console.log(currentWarp);
+
   const { getWidth } = useContext(ResizeContext);
   const { sound, useSound } = useContext(SoundContext);
   const [playSelectItem] = useSound("../assets/audio/sfx/item-select.mp3");
@@ -139,28 +118,18 @@ const WarpResults = ({ currentWarp, newItems, onClose, hasFive }) => {
           handleSelect={handleSelect}
           warp={currentWarp[0]}
           reveal
-          isFive={json.getRarity(currentWarp[0]) === 5}
-          isNew={newItems.indexOf(currentWarp[0]) !== -1}
-          animationStyle={`${
-            json.getRarity(currentWarp[0]) !== 3
-              ? "animate-result"
-              : "animate-three"
-          } 1.2s cubic-bezier(.12,1,.06,1) 50ms 1 both`}
+          animationStyle="animate-result 1.2s cubic-bezier(.12,1,.06,1) 50ms 1 both"
           style={{
             marginTop: getWidth(10),
           }}
         />
-        <WarpResult
+        {/* <WarpResult
           handleSelect={handleSelect}
           warp={currentWarp[1]}
           reveal
           isFive={json.getRarity(currentWarp[1]) === 5}
           isNew={newItems.indexOf(currentWarp[1]) !== -1}
-          animationStyle={`${
-            json.getRarity(currentWarp[3]) !== 3
-              ? "animate-result"
-              : "animate-three"
-          } 1.2s cubic-bezier(.12,1,.06,1) 25ms 1 both`}
+          animationStyle="1.2s cubic-bezier(.12,1,.06,1) 25ms 1 both"
           style={{
             marginBottom: getWidth(10),
           }}
@@ -240,61 +209,7 @@ const WarpResults = ({ currentWarp, newItems, onClose, hasFive }) => {
               ? "animate-result-middle"
               : "animate-three-middle"
           } 1.2s cubic-bezier(.12,1,.06,1) 75ms 1 both`}
-        />
-      </div>
-      <div className="warp-results bottom">
-        <div
-          onClick={() => {
-            onClose();
-            playFiveData.stop();
-          }}
-          className="hack-close"
-        />
-        <WarpResult
-          handleSelect={handleSelect}
-          warp={currentWarp[7]}
-          reveal
-          isFive={json.getRarity(currentWarp[7]) === 5}
-          isNew={newItems.indexOf(currentWarp[7]) !== -1}
-          animationStyle={`${
-            json.getRarity(currentWarp[7]) !== 3
-              ? "animate-result"
-              : "animate-three"
-          } 1.2s cubic-bezier(.12,1,.06,1) 50ms 1 both`}
-          style={{
-            marginBottom: getWidth(10),
-          }}
-        />
-        <WarpResult
-          handleSelect={handleSelect}
-          warp={currentWarp[8]}
-          reveal
-          isFive={json.getRarity(currentWarp[8]) === 5}
-          isNew={newItems.indexOf(currentWarp[8]) !== -1}
-          animationStyle={`${
-            json.getRarity(currentWarp[8]) !== 3
-              ? "animate-result"
-              : "animate-three"
-          } 1.2s cubic-bezier(.12,1,.06,1) 25ms 1 both`}
-          style={{
-            marginTop: getWidth(10),
-          }}
-        />
-        <WarpResult
-          handleSelect={handleSelect}
-          warp={currentWarp[9]}
-          reveal
-          isFive={json.getRarity(currentWarp[9]) === 5}
-          isNew={newItems.indexOf(currentWarp[9]) !== -1}
-          animationStyle={`${
-            json.getRarity(currentWarp[9]) !== 3
-              ? "animate-result"
-              : "animate-three"
-          } 1.2s cubic-bezier(.12,1,.06,1) 0ms 1 both`}
-          style={{
-            marginBottom: getWidth(10),
-          }}
-        />
+        /> */}
       </div>
     </motion.section>
   );

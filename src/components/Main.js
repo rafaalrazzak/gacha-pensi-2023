@@ -1,8 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import SoundContext from "./context/SoundContext";
-import { json, allChars, allWeapons, LATESTVERS } from "../util/Constants";
-import { CalcWarp } from "../util/CalcWarp";
-import History from "../util/History";
+import { allChars, allWeapons, LATESTVERS } from "../util/Constants";
 import WarpButtons from "./WarpButtons";
 import Settings from "./Settings";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -12,53 +9,21 @@ import { AnimatePresence, motion } from "framer-motion";
 
 export default function Main({
   bannerType,
-  bannerState,
-  setBannerState,
   showDB,
   setShowDB,
-  setBannerType,
-  setNewItems,
-  setHasFive,
-  setHasFour,
   setContent,
   setCurrentWarp,
   setDBType,
-  history,
-  setHistory,
   bgm,
 }) {
   const { getWidth, getHeight } = useContext(ResizeContext);
-  const { sound, useSound } = useContext(SoundContext);
 
-
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [vers, setVers] = useState(
     sessionStorage.getItem("vers") || LATESTVERS
   );
 
-  const [totalBeginner, setTotalBeginner] = useState(
-    parseInt(localStorage.getItem("totalBeginner")) || 0
-  );
-
-  const localStore = (suffix, value) => {
-    switch (bannerType) {
-      case "beginner":
-        localStorage.setItem("beg" + suffix, value);
-        break;
-      case "char":
-        localStorage.setItem("char" + suffix, value);
-        break;
-      case "weap":
-        localStorage.setItem("weap" + suffix, value);
-        break;
-      default:
-        localStorage.setItem("stand" + suffix, value);
-        break;
-    }
-  };
-
-  // creates stash and updates it if there are new entities
   useEffect(() => {
     const allItems = allChars.concat(allWeapons);
     var stash = JSON.parse(localStorage.getItem("stash")) || {};
@@ -69,14 +34,6 @@ export default function Main({
     localStorage.setItem("stash", JSON.stringify(stash));
   }, []);
 
-  const updateStash = (warpItem) => {
-    let stash = JSON.parse(localStorage.getItem("stash"));
-    if (stash[warpItem] === 0) setNewItems((prev) => [...prev, warpItem]);
-    stash[warpItem]++;
-    localStorage.setItem("stash", JSON.stringify(stash));
-  };
-
-
   const bannerBackColor = {
     "1.2.1": {
       char: "#241330",
@@ -85,51 +42,10 @@ export default function Main({
   };
 
   const handleWarp = (warps) => {
-    if (bannerType === "beginner") {
-      setTotalBeginner(totalBeginner + 1);
-      localStorage.setItem("totalBeginner", totalBeginner + 1);
-      if (totalBeginner === 4) {
-        setBannerType("char");
-        sessionStorage.setItem("bannerType", "char");
-      }
-    }
+    setCurrentWarp(warps);
 
-    const prevTotal = parseInt(localStorage.getItem(bannerType + "Total")) || 0;
-    localStorage.setItem(bannerType + "Total", prevTotal + warps);
-
-    setHasFive(false);
-    setHasFour(false);
-    let warpResults = [];
-    let banner = bannerState[bannerType];
-    for (let i = 0; i < warps; i++)
-      warpResults.push(
-        CalcWarp(vers, bannerType, banner, setHasFive, setHasFour)
-      );
-
-    warpResults.map((item) => {
-      updateStash(item);
-      return item;
-    });
-
-    localStore("PityFive", bannerState[bannerType].pityFive);
-    localStore("PityFour", bannerState[bannerType].pityFour);
-    localStore("GuaranteeFive", bannerState[bannerType].guaranteeFive);
-    localStore("GuaranteeFour", bannerState[bannerType].guaranteeFour);
-
-    let historyClone = structuredClone(history);
-    historyClone[bannerType] = historyClone[bannerType].concat(
-      new History(warpResults).getHistory()
-    );
-    localStore("History", JSON.stringify(historyClone[bannerType]));
-    setHistory(historyClone);
-
-    let bannerStateClone = bannerState;
-    bannerStateClone[bannerType] = banner;
-    setBannerState(bannerStateClone);
-    setCurrentWarp(warpResults);
     setContent("video");
   };
-
 
   return (
     <motion.section
@@ -157,8 +73,6 @@ export default function Main({
         id="main-back-cover"
         style={{
           backgroundImage: "url(assets/bg-gradient.png)",
-          backgroundPosition: "bottom",
-          backgroundSize: "100%"
         }}
       />
       <LazyLoadImage
@@ -214,11 +128,11 @@ export default function Main({
               height: getWidth(24, 11),
             }}
           >
-            {json.getTitle(vers, bannerType, i18n.resolvedLanguage)}
+            Hadiah
           </div>
         </div>
       </div>
-    
+
       <div
         style={{
           position: "relative",
@@ -234,34 +148,31 @@ export default function Main({
           <motion.div
             className="banner"
             key={bannerType + vers}
-            initial={
-              bannerType === "beginner"
-                ? {}
-                : {
-                    transform: `translate(-50%, 500%)`,
-                    opacity: 0,
-                    transition: { duration: 0.3 },
-                  }
-            }
+            initial={{
+              transform: `translate(-50%, 500%)`,
+              opacity: 0,
+              transition: { duration: 0.3 },
+            }}
             animate={{
               transform: "translate(-50%,-50%)",
               opacity: 1,
-              transition: { duration: bannerType === "beginner" ? 0 : 0.3 },
+              transition: { duration: 0.3 },
             }}
-            exit={
-              bannerType === "beginner"
-                ? { opacity: 0 }
-                : {
-                    transform: `translate(-50%, -500%)`,
-                    opacity: 0,
-                    transition: { duration: 0.3 },
-                  }
-            }
+            exit={{
+              transform: `translate(-50%, -500%)`,
+              opacity: 0,
+              transition: { duration: 0.3 },
+            }}
           >
-            <img src="./assets/logo-pensi.png" width={500} height={300} />
+            <img
+              src="./assets/logo-pensi.png"
+              width={500}
+              height={300}
+              alt="Logo Pensi"
+            />
           </motion.div>
+          <WarpButtons onWarp={handleWarp} />
         </AnimatePresence>
-        <WarpButtons onWarp={handleWarp} event={bannerType} />
       </div>
     </motion.section>
   );

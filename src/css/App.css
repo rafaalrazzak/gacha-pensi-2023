@@ -333,11 +333,10 @@ html * {
 
 #main-back-cover {
   position: fixed;
-  top: 0;
-  left: 0;
   height: 100%;
   width: 100%;
   object-fit: contain;
+  background-possition: bottom;
   background-repeat: no-repeat;
 }
 
@@ -361,18 +360,11 @@ html * {
 
 .warp-button {
   position: absolute;
-  bottom: -1.5%;
-  right: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 100;
   transition: filter 0.2s;
-}
-
-.warp-button.one {
-  right: 26%;
-}
-
-.warp-button.ten {
-  right: 1.5%;
 }
 
 .warp-button:active {

@@ -21,8 +21,8 @@ function App() {
     sessionStorage.getItem("bannerType")
       ? sessionStorage.getItem("bannerType")
       : parseInt(localStorage.getItem("totalBeginner")) === 5
-        ? "char"
-        : "beginner"
+      ? "char"
+      : "beginner"
   );
 
   const [currentWarp, setCurrentWarp] = useState([]);
@@ -256,8 +256,6 @@ function App() {
             {content === "results" && (
               <WarpResults
                 currentWarp={currentWarp}
-                hasFive={hasFive}
-                newItems={newItems}
                 onClose={() => {
                   setContent("main");
                   setNewItems([]);

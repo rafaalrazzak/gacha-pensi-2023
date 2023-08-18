@@ -1,6 +1,6 @@
 {
   "main": {
-    "title": "Warp"
+    "title": "Doorprize"
   },
   "modal": {
     "lang": { "title": "Pilih bahasamu" },
@@ -58,7 +58,7 @@
   },
   "banner": {
     "beg": {
-      "title": "Warp Keberangkatan",
+      "title": "Hadiah",
       "remaining": "Jumlah Tersisa",
       "text": "Ada diskon 20% untuk set 10 Warp, dijamin akan memperoleh karakter <1>5★</1> dalam <1>50</1> Warp"
     }

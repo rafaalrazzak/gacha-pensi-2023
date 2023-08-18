@@ -12,18 +12,7 @@
     ],
     "type": "beginner",
     "title": {
-      "en": "Departure Warp",
-      "zh": "始发跃迁",
-      "ja": "始発跳躍",
-      "ko": "초행길 워프",
-      "es": "Salto de partida",
-      "fr": "Saut hyperespace de départ",
-      "ru": "Отправной прыжок",
-      "th": "ก้าวแรกแห่งการวาร์ป",
-      "vi": "Bước Nhảy Đầu Tiên",
-      "de": "Startwarp",
-      "id": "Warp Keberangkatan",
-      "pt": "Salto Hiperespacial de Partida"
+      "id": "Hadiah"
     },
     "poolFiveChar": [
       "himeko",
