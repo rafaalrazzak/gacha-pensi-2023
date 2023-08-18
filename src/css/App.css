@@ -333,10 +333,11 @@ html * {
 
 #main-back-cover {
   position: fixed;
-  height: 100%;
-  width: 100%;
-  object-fit: contain;
-  background-possition: bottom;
+  inset: 0;
+  height: 150%;
+  width: 150%;
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
